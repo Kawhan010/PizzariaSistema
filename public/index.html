@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#242e49">
+  <meta name="description" content="Painel interno da Pizzaria Dominos: visão geral da operação e registro de pedidos de mesa pela equipe.">
+  <title>Dominos · Painel da pizzaria</title>
+  <link rel="icon" type="image/png" href="assets/logo-dominos.png">
+  <link rel="preload" href="assets/bricolage-extra-bold.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="stylesheet" href="styles.css">
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Ir para o conteúdo</a>
+  <svg class="icon-library" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></symbol>
+    <symbol id="i-order" viewBox="0 0 24 24"><path d="M8 3H5v18l3-2 4 2 4-2 3 2V3h-3M9 3h6v4H9zM8 11h8M8 15h5"/></symbol>
+    <symbol id="i-table" viewBox="0 0 24 24"><path d="M4 9h16v4H4zM6 13v7M18 13v7M8 9V5h8v4M3 20h6M15 20h6"/></symbol>
+    <symbol id="i-pizza" viewBox="0 0 24 24"><path d="m4 6 8 15 8-15M4 6c4-3 12-3 16 0M6 9c4-2 8-2 12 0"/><circle cx="10" cy="12" r="1"/><circle cx="14" cy="13" r="1"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3 21v-3a6 6 0 0 1 12 0v3M16 5a3 3 0 0 1 0 6M17 15a5 5 0 0 1 4 5"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 3v17h17M8 16v-5M13 16V7M18 16V4"/></symbol>
+    <symbol id="i-settings" viewBox="0 0 24 24"><path d="m9 3-1 3-3 1-2 4 2 2v4l4 2 3-1 3 1 4-2v-4l2-2-2-4-3-1-1-3Z"/><circle cx="12" cy="11" r="3"/></symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M6 18 18 6"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-money" viewBox="0 0 24 24"><path d="M12 2v20M17 6H9a4 4 0 0 0 0 8h6a3 3 0 0 1 0 6H6"/></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 11h18M7 15h2M12 15h2"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+    <symbol id="i-truck" viewBox="0 0 24 24"><path d="M2 5h12v12H2zM14 9h4l4 5v3h-8"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></symbol>
+    <symbol id="i-bag" viewBox="0 0 24 24"><path d="M5 7h14l2 14H3ZM8 8V6a4 4 0 0 1 8 0v2"/></symbol>
+    <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+  </svg>
+
+  <section class="auth-screen" id="auth-screen" aria-labelledby="auth-title">
+    <div class="auth-brand"><img src="assets/logo-dominos.png" alt="Pizzaria Dominos" width="104" height="104"><span>GESTÃO DA PIZZARIA</span><h1>Uma equipe.<br>Todos no mesmo ritmo<span>.</span></h1><p>Da mesa ao forno, do pedido à conta.</p><div class="auth-steps"><span>01 · Garçom</span><span>02 · Cozinha</span><span>03 · Caixa</span></div></div>
+    <div class="auth-card"><span class="eyebrow">ACESSO DA EQUIPE</span><h2 id="auth-title">Carregando o sistema…</h2><p id="auth-copy">Conectando ao servidor da pizzaria.</p>
+      <form id="auth-form" hidden>
+        <label id="setup-name-field" hidden>Nome do proprietário<input id="auth-name" type="text" maxlength="80" autocomplete="name"></label>
+        <label id="setup-key-field" hidden>Código de instalação<input id="auth-setup-key" type="password" maxlength="256" autocomplete="off" placeholder="Código reservado ao proprietário"></label>
+        <label>Usuário<input id="auth-username" type="text" minlength="3" maxlength="40" pattern="[A-Za-z0-9._-]{3,40}" autocomplete="username" required placeholder="Seu usuário"></label>
+        <label>Senha<input id="auth-password" type="password" maxlength="128" autocomplete="current-password" required placeholder="Sua senha"></label>
+        <label id="setup-tables-field" hidden>Quantidade de mesas<input id="auth-tables" type="number" min="1" max="999" value="20"></label>
+        <p class="form-error" id="auth-error" role="alert" hidden></p><button class="button button-yellow" id="auth-submit" type="submit">Entrar no sistema</button>
+      </form><button class="text-button" id="auth-retry" type="button" hidden>Tentar conectar novamente</button>
+    </div>
+  </section>
+  <dialog class="module-dialog" id="module-dialog" aria-labelledby="module-title"><div class="dialog-header"><div><span class="eyebrow">GESTÃO DA EQUIPE</span><h2 id="module-title"></h2></div><button class="icon-button" id="module-close" type="button" aria-label="Fechar janela"><svg class="icon"><use href="#i-close"/></svg></button></div><div class="dialog-body" id="module-content"></div></dialog>
+
+  <div class="app-shell" id="app-shell" hidden>
+    <aside class="sidebar" id="sidebar" aria-label="Menu principal">
+      <a class="brand" href="#main" aria-label="Dominos, visão geral"><img src="assets/logo-dominos.png" alt="Logo da Pizzaria Dominos" width="64" height="64"><span>Dominos<small>GESTÃO DA PIZZARIA</small></span></a>
+      <div class="workspace"><span class="workspace-avatar"><svg class="icon"><use href="#i-pizza"/></svg></span><div><strong>Pizzaria Dominos</strong><small>Painel da equipe</small></div><span class="workspace-dot" title="Conexão com o servidor"></span></div>
+      <p class="nav-label">OPERAÇÃO</p>
+      <nav class="navigation">
+        <a class="nav-item active" href="#main" aria-current="page"><svg class="icon"><use href="#i-grid"/></svg>Visão geral</a>
+        <a class="nav-item" href="#pedidos"><svg class="icon"><use href="#i-order"/></svg>Pedidos<span class="nav-count" id="nav-order-count">6</span></a>
+        <button class="nav-item" id="waiter-nav" type="button"><svg class="icon"><use href="#i-table"/></svg>Modo garçom<span class="nav-new">NOVO</span></button>
+      <button class="nav-item" id="tables-nav" type="button"><svg class="icon"><use href="#i-table"/></svg>Mesas e contas</button><a class="nav-item" id="kitchen-nav" href="#cozinha"><svg class="icon"><use href="#i-pizza"/></svg>Cozinha</a></nav>
+      <p class="nav-label upcoming-label">GESTÃO</p>
+      <div class="navigation" aria-label="Gestão">
+        <button class="nav-item" id="catalog-nav" type="button"><svg class="icon"><use href="#i-pizza"/></svg>Cardápio<span class="nav-count" id="catalog-nav-count"></span></button>
+        <button class="nav-item" id="staff-nav" type="button"><svg class="icon"><use href="#i-users"/></svg>Funcionários</button>
+        <button class="nav-item" id="finance-nav" type="button"><svg class="icon"><use href="#i-chart"/></svg>Financeiro</button>
+        <button class="nav-item" id="settings-nav" type="button"><svg class="icon"><use href="#i-settings"/></svg>Configurações</button>
+      </div>
+      <div class="sidebar-bottom"><div class="demo-note"><span></span><b id="connection-status" role="status">Conectando…</b><small>Pedidos compartilhados pela equipe</small></div><div class="sidebar-profile"><span class="avatar">D</span><div><strong id="profile-name"></strong><small id="profile-role"></small></div></div><button class="logout-button" id="logout" type="button">Sair da conta</button></div>
+    </aside>
+    <button class="sidebar-scrim" id="sidebar-scrim" type="button" aria-label="Fechar menu" hidden></button>
+
+    <div class="main-shell">
+      <header class="topbar"><div class="topbar-left"><button class="icon-button mobile-menu" id="menu-toggle" type="button" aria-label="Abrir menu" aria-controls="sidebar" aria-expanded="false"><svg class="icon"><use href="#i-menu"/></svg></button><span class="breadcrumb">Pizzaria Dominos <span>/</span> <strong>Visão geral</strong></span></div><div class="topbar-actions"><label class="global-search"><svg class="icon"><use href="#i-search"/></svg><input id="global-search" type="search" placeholder="Buscar pedido ou cliente…" aria-label="Buscar pedido ou cliente" autocomplete="off"><kbd>Ctrl K</kbd></label><button class="icon-button notification-button" id="notifications" type="button" aria-label="Ver resumo dos pedidos pendentes"><svg class="icon"><use href="#i-bell"/></svg><span class="notification-dot" id="notification-dot"></span></button><span class="avatar top-avatar" aria-label="Equipe Dominos">D</span></div></header>
+
+      <main id="main" tabindex="-1">
+        <div class="page-heading"><div><div class="eyebrow">PAINEL DA PIZZARIA</div><h1>Visão geral<span class="heading-dot">.</span></h1><p>Tudo o que acontece na sua pizzaria, em um só lugar.</p></div><div class="page-actions"><span class="date-label"><svg class="icon"><use href="#i-calendar"/></svg><span id="today-label"></span></span><button class="button button-yellow" id="new-order" type="button"><svg class="icon"><use href="#i-plus"/></svg>Novo pedido</button></div></div>
+
+        <section class="waiter-banner" aria-labelledby="waiter-title"><div class="waiter-icon"><svg class="icon"><use href="#i-table"/></svg></div><div class="waiter-banner-copy"><div class="banner-title"><h2 id="waiter-title">Da mesa para o preparo.</h2><span class="small-tag">MODO GARÇOM</span></div><p>Escolha a mesa, adicione os sabores e anote os pedidos sem complicação.</p></div><button class="button button-navy" id="waiter-quick" type="button">Pedido de mesa<svg class="icon"><use href="#i-arrow"/></svg></button></section>
+
+        <section class="stats-grid" id="stats" aria-label="Indicadores de hoje"></section>
+
+        <div class="overview-grid"><section class="panel sales-panel" aria-labelledby="sales-title"><div class="panel-heading"><div><h2 id="sales-title">Vendas da semana</h2><p>Pagamentos recebidos nos últimos 7 dias</p></div><span class="small-tag tag-soft">RECEBIMENTOS</span></div><div class="sales-summary"><strong id="week-total"></strong><span>total na semana</span></div><div class="sales-chart" id="sales-chart" role="img" aria-label="Pagamentos dos últimos sete dias"></div></section><section class="panel operation-panel" aria-labelledby="operation-title"><div class="panel-heading"><div><h2 id="operation-title">O forno está a todo vapor</h2><p>Acompanhe cada etapa da operação</p></div><span class="live-dot" aria-hidden="true"></span></div><div class="operation-list" id="operation-list"></div><div class="operation-footer"><svg class="icon"><use href="#i-clock"/></svg><span id="operation-summary"></span></div></section></div>
+
+        <section class="panel kitchen-panel" id="cozinha" aria-labelledby="kitchen-title" hidden><div class="panel-heading"><div><h2 id="kitchen-title">Fila da cozinha</h2><p>Receba o pedido, prepare e avise quando estiver pronto.</p></div><span class="small-tag tag-soft">AO VIVO</span></div><div class="kitchen-grid" id="kitchen-list"></div></section><section class="panel orders-panel" id="pedidos" aria-labelledby="orders-title"><div class="panel-heading orders-heading"><div><h2 id="orders-title">Pedidos em andamento <span class="heading-count" id="active-order-count"></span></h2><p>Os próximos bons momentos começam por aqui.</p></div><button class="text-button" id="clear-search" type="button">Ver todos<svg class="icon"><use href="#i-arrow"/></svg></button></div><div class="orders-toolbar"><div class="order-tabs" role="group" aria-label="Filtrar pedidos por atendimento"><button class="order-tab active" type="button" data-type="all" aria-pressed="true">Todos</button><button class="order-tab" type="button" data-type="table" aria-pressed="false"><svg class="icon"><use href="#i-table"/></svg>Mesa</button><button class="order-tab" type="button" data-type="delivery" aria-pressed="false"><svg class="icon"><use href="#i-truck"/></svg>Entrega</button><button class="order-tab" type="button" data-type="pickup" aria-pressed="false"><svg class="icon"><use href="#i-bag"/></svg>Retirada</button></div><span class="result-count" id="result-count" role="status" aria-live="polite"></span></div><div class="table-wrap"><table><thead><tr><th>Pedido</th><th>Cliente / Mesa</th><th>Atendimento</th><th>Status</th><th>Total</th><th><span class="sr-only">Próxima ação</span></th></tr></thead><tbody id="order-rows"></tbody></table></div><div class="empty-state" id="empty-state" hidden><svg class="icon"><use href="#i-order"/></svg><h3>Nenhum pedido por aqui</h3><p>Tente outra busca ou registre um novo pedido.</p></div><div class="table-footer"><span><span class="demo-dot"></span>Pedidos da equipe</span><span>Sincronização pelo servidor</span></div></section>
+        <footer class="app-footer"><span>Dominos · Gestão no ponto.</span><span>Sistema interno · Garçom / Cozinha / Caixa</span></footer>
+      </main>
+    </div>
+  </div>
+
+  <dialog class="order-dialog" id="order-dialog" aria-labelledby="order-dialog-title">
+    <form id="order-form">
+      <div class="dialog-header"><div><span class="eyebrow">ATENDIMENTO DA EQUIPE</span><h2 id="order-dialog-title">Novo pedido</h2></div><button class="icon-button dialog-close" type="button" aria-label="Fechar pedido"><svg class="icon"><use href="#i-close"/></svg></button></div>
+      <div class="dialog-body">
+        <p class="form-demo">Escolha os produtos do cardápio. Ao registrar, o pedido aparece na cozinha.</p>
+        <div class="order-fields"><label>Atendimento<select id="order-type" name="type"><option value="table">Mesa · Garçom</option><option value="delivery">Entrega</option><option value="pickup">Retirada</option></select></label><label id="table-field">Número da mesa<input id="table-number" name="table" type="number" min="1" max="999" step="1" placeholder="Ex.: 5" required></label><label id="customer-field" hidden>Nome do cliente<input id="customer-name" name="customer" type="text" maxlength="80" placeholder="Nome do cliente"></label></div>
+        <h3 class="product-list-title">O que vai para a mesa?</h3>
+        <div class="catalog-kind-tabs" role="group" aria-label="Categoria do produto"><button type="button" data-picker-kind="pizza" class="active" aria-pressed="true">Pizzas</button><button type="button" data-picker-kind="drink" aria-pressed="false">Bebidas</button><button type="button" data-picker-kind="cocktail" aria-pressed="false">Coquetéis</button></div>
+        <label class="catalog-search"><svg class="icon"><use href="#i-search"/></svg><input id="picker-search" type="search" placeholder="Buscar sabor, bebida ou ingrediente…" aria-label="Buscar produto para o pedido"></label>
+        <div class="catalog-group-tabs" id="picker-groups" role="group" aria-label="Filtrar produtos do pedido"></div>
+        <div class="pizza-options" id="pizza-options"><label>Tamanho<select id="pizza-size"></select></label><label class="split-toggle"><input type="checkbox" id="split-pizza">Dois sabores</label></div>
+        <div class="split-summary" id="split-summary" hidden><p id="split-selection" role="status" aria-live="polite">Escolha o primeiro sabor abaixo.</p><small>Até 2 sabores. Vale o preço do sabor mais caro.</small><div class="split-actions"><button class="text-button" id="clear-split" type="button">Limpar sabores</button><button class="button button-yellow" id="add-split" type="button" disabled>Adicionar pizza</button></div></div>
+        <div class="product-picker catalog-product-list" id="product-picker"></div>
+        <p class="picker-empty" id="picker-empty" hidden>Nenhum produto encontrado. Tente outro nome ou categoria.</p>
+        <div class="draft-heading"><h3>Itens do pedido</h3><span id="draft-count" role="status" aria-live="polite">0 itens</span></div>
+        <div class="draft-items" id="draft-items"><p class="draft-empty">Escolha os produtos acima para montar o pedido.</p></div>
+        <label class="notes-field">Observações <span>(opcional)</span><textarea id="order-notes" name="notes" rows="2" maxlength="300" placeholder="Ex.: sem cebola, cortar em 8 fatias…"></textarea></label>
+        <p class="form-error" id="form-error" role="alert" hidden></p>
+      </div>
+      <div class="dialog-footer"><div><small>Total do pedido</small><strong id="order-total">R$ 0,00</strong></div><button class="button button-yellow" type="submit"><svg class="icon"><use href="#i-check"/></svg>Registrar pedido</button></div>
+    </form>
+  </dialog>
+  <dialog class="catalog-dialog" id="catalog-dialog" aria-labelledby="catalog-title">
+    <div class="dialog-header"><div><span class="eyebrow">PIZZARIA DOMINOS</span><h2 id="catalog-title">Cardápio da casa</h2><p class="catalog-subtitle" id="catalog-summary"></p></div><button class="icon-button catalog-close" type="button" aria-label="Fechar cardápio"><svg class="icon"><use href="#i-close"/></svg></button></div>
+    <div class="dialog-body"><div class="catalog-kind-tabs" role="group" aria-label="Consultar categoria"><button type="button" data-catalog-kind="pizza" class="active" aria-pressed="true">Pizzas</button><button type="button" data-catalog-kind="drink" aria-pressed="false">Bebidas</button><button type="button" data-catalog-kind="cocktail" aria-pressed="false">Coquetéis</button></div><label class="catalog-search"><svg class="icon"><use href="#i-search"/></svg><input type="search" id="catalog-search" placeholder="Buscar nome ou ingrediente…" aria-label="Buscar no cardápio"></label><div class="catalog-group-tabs" id="catalog-groups" role="group" aria-label="Filtrar cardápio"></div><p class="catalog-rule" id="catalog-rule">Pizzas: pequena 4, média 6, grande 8, família 10 e gigante 12 fatias. Até dois sabores, pelo valor do mais caro.</p><div class="catalog-list" id="catalog-list"></div><p class="picker-empty" id="catalog-empty" hidden>Nenhum produto encontrado.</p><details class="menu-sources"><summary>Consultar as imagens originais do cardápio</summary><div id="menu-sources"></div></details></div>
+  </dialog>
+  <dialog class="notice-dialog" id="notice-dialog" aria-labelledby="notice-title"><div class="dialog-header"><h2 id="notice-title">Resumo da operação</h2><button class="icon-button notice-close" type="button" aria-label="Fechar resumo"><svg class="icon"><use href="#i-close"/></svg></button></div><div class="notice-content" id="notice-content"></div></dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden><svg class="icon"><use href="#i-check"/></svg><span></span></div>
+  <noscript><p class="noscript">Ative o JavaScript para carregar os dados e registrar pedidos.</p></noscript>
+</body>
+</html>

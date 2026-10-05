@@ -1,0 +1,16 @@
+{
+  "name": "pizzaria-dominos",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "dev": "node server.mjs",
+    "start": "node server.mjs",
+    "check": "node --check app.js && node --check server.mjs && node --check server-factory.mjs && node --check backend/api.mjs && node --check backend/database.mjs && node --check backend/postgres.mjs && node --check api/index.js && node --check catalog.js",
+    "test": "node --test tests/*.test.mjs"
+  },
+  "engines": { "node": "24.x" },
+  "dependencies": { "pg": "^8.23.1" },
+  "devDependencies": { "@electric-sql/pglite": "^0.5.8" }
+}
